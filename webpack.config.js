@@ -14,7 +14,9 @@ module.exports={
 		resolve:{
 			alias:{
 				page: path.resolve(__dirname,'src/page'),
-				component: path.resolve(__dirname,'src/component')
+				component: path.resolve(__dirname,'src/component'),
+				util: path.resolve(__dirname,'src/util'),
+				service: path.resolve(__dirname,'src/service')
 			}
 			
 		},
@@ -79,7 +81,7 @@ module.exports={
 			 new HtmlWebpackPlugin(
 				 {
 				 	template:'./src/index.html',
-
+					favicon:'./favicon.ico'
 				 }),
 			 //独立css文件
 			 new ExtractTextPlugin("css/main.css"),
@@ -93,6 +95,13 @@ module.exports={
  			port:8086,
  			historyApiFallback:{
  				index:'/dist/index.html'
+ 			},
+ 			//代理
+ 			proxy:{
+ 				'/manage' :{
+ 					target:'http://admintest.happymmall.com',
+ 					changeOrigin:true//指定服务器路径是上面的路径
+ 				}
  			}
 	   		// contentBase: './dist'
 	  	}
