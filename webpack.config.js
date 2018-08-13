@@ -101,9 +101,13 @@ module.exports={
  				'/manage' :{
  					target:'http://admintest.happymmall.com',
  					changeOrigin:true//指定服务器路径是上面的路径
- 				}
+ 				},
+ 				'/user/logout.do' : {
+	                target: 'http://admintest.happymmall.com',
+	                changeOrigin : true
+            	}
  			}
-	   		// contentBase: './dist'
+
 	  	}
 
 		
