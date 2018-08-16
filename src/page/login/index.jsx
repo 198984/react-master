@@ -1,6 +1,8 @@
 /*
-* @Author: Canvas
-* @Date:   2018-08-25 17:37:22
+* @Author: Rosen
+* @Date:   2018-01-25 17:37:22
+* @Last Modified by:   Rosen
+* @Last Modified time: 2018-01-26 12:29:31
 */
 import React        from 'react';
 import MUtil        from 'util/mm.jsx'
@@ -14,25 +16,31 @@ import './index.scss';
 class Login extends React.Component{
     constructor(props){
         super(props);
-		this.state={
-			username:'',
-			password:'',
-			redirect:_mm.getUrlParam('redirect') || ''
-		}
-    }
-    //监听用户输入
-    onInputChange(e){
-    	let inputValue =e.target.value,
-    		inputName=e.target.name;
-    	this.setState({
-    		[inputName]:inputValue
-    	})
+        this.state = {
+            username: '',
+            password: '',
+            redirect: _mm.getUrlParam('redirect') || '/'
+        }
     }
     componentWillMount(){
-    	document.title="登录 - MMALL-ADMIN"
+        document.title = '登录 - MMALL ADMIN';
     }
+    // 当用户名发生改变
+    onInputChange(e){
+        let inputValue  = e.target.value,
+            inputName   = e.target.name;
+        this.setState({
+            [inputName] : inputValue
+        });
+    }
+    onInputKeyUp(e){
+        if(e.keyCode === 13){
+            this.onSubmit();
+        }
+    }
+    // 当用户提交表单
     onSubmit(){
-    	 let loginInfo = {
+        let loginInfo = {
                 username : this.state.username,
                 password : this.state.password
             },
@@ -40,7 +48,7 @@ class Login extends React.Component{
         // 验证通过
         if(checkResult.status){
             _user.login(loginInfo).then((res) => {
-                 _mm.setStorage('userInfo', res);
+                _mm.setStorage('userInfo', res);
                 this.props.history.push(this.state.redirect);
             }, (errMsg) => {
                 _mm.errorTips(errMsg);
@@ -50,11 +58,7 @@ class Login extends React.Component{
         else{
             _mm.errorTips(checkResult.msg);
         }
-    }
-    onInputKeyUp(e){
-    	if(e.keyCode===13){
-    		this.onSubmit();
-    	}
+            
     }
     render(){
         return (
@@ -68,21 +72,19 @@ class Login extends React.Component{
                                     name="username"
                                     className="form-control"
                                     placeholder="请输入用户名" 
-                                    onKeyUp={(e)=>{this.onInputKeyUp(e)}}
-                                   onChange={(e)=>{this.onInputChange(e)}}
-                                   />
+                                    onKeyUp={e => this.onInputKeyUp(e)}
+                                    onChange={e => this.onInputChange(e)}/>
                             </div>
                             <div className="form-group">
                                 <input type="password" 
                                     name="password"
                                     className="form-control" 
                                     placeholder="请输入密码" 
-                                    onChange={(e)=>{this.onInputChange(e)}}
-                                    onKeyUp={(e)=>{this.onInputKeyUp(e)}}
-                                   />
+                                    onKeyUp={e => this.onInputKeyUp(e)}
+                                    onChange={e => this.onInputChange(e)}/>
                             </div>
-                            <button type='button' className="btn btn-lg btn-primary btn-block"
-                              onClick={()=>{this.onSubmit()}}>登录</button>
+                            <button className="btn btn-lg btn-primary btn-block"
+                                onClick={e => {this.onSubmit(e)}}>登录</button>
                         </div>
                     </div>
                 </div>
@@ -90,7 +92,6 @@ class Login extends React.Component{
                     
         );
     }
-  
 }
 
 export default Login;

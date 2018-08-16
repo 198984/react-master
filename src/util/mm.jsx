@@ -1,41 +1,47 @@
-import React from 'react';
-class MUtil{
-	request(param){
-		return new Promise((resolve,reject)=>{
-			$.ajax({
-				type    :param.type || 'get',
-				url     :param.url  || '',
-				dataType:param.dataType || 'json',
-				data    :param.data || null,
-				success :res=>{
-					if(0===res.status){
-						typeof resolve==='function' && resolve(res.data,res.msg)
-					}
-					else if(10===res.status){
-						this.doLogin();
-					}else{
-						typeof reject==='function' && reject(res.msg || res.data)
-					}
-				},
-				error :err=>{
-				typeof reject==='function' && reject(err.statusText)
-				}
+/*
+* @Author: Rosen
+* @Date:   2018-01-23 22:54:28
+* @Last Modified by:   Rosen
+* @Last Modified time: 2018-01-31 14:21:22
+*/
 
-			})
-		})
-		
-	}
-	//强制登录
-	doLogin(){
-		window.location.href='/login?redirect='+ encodeURIComponent(window.location.pathname)
-	}
-	//获取URL参数
-	 getUrlParam(name){
-       
+class MUtil{
+    request(param){
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type        : param.type        || 'get',
+                url         : param.url         || '',
+                dataType    : param.dataType    || 'json',
+                data        : param.data        || null,
+                success     : res => {
+                    // 数据请求成功
+                    if(0 === res.status){
+                        typeof resolve === 'function' && resolve(res.data, res.msg);
+                    }
+                    // 没有登录状态，强制登录
+                    else if(10 === res.status){
+                        this.doLogin();
+                    }
+                    else{
+                        typeof reject === 'function' && reject(res.msg || res.data);
+                    }
+                },
+                error       : err => {
+                    typeof reject === 'function' && reject(err.statusText);
+                }
+            });
+        });  
+    }
+    // 跳转登录
+    doLogin(){
+        window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+    }
+    // 获取URL参数
+    getUrlParam(name){
+        // param=123&param1=456
         let queryString = window.location.search.split('?')[1] || '',
             reg         = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"),
             result      = queryString.match(reg);
-            console.log(result,'123')
         return result ? decodeURIComponent(result[2]) : null;
     }
     // 成功提示
@@ -46,7 +52,7 @@ class MUtil{
     errorTips(errMsg){
         alert(errMsg || '好像哪里不对了~');
     }
-     // 本地存储
+    // 本地存储
     setStorage(name, data){
         let dataType = typeof data;
         // json对象
@@ -77,5 +83,5 @@ class MUtil{
         window.localStorage.removeItem(name);
     }
 }
-export default MUtil
 
+export default MUtil;

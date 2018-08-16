@@ -1,7 +1,7 @@
 /*
-* @Author: Canvas
+* @Author: Rosen
 * @Date:   2018-01-26 13:45:45
-* @Last Modified by:   Canvas
+* @Last Modified by:   Rosen
 * @Last Modified time: 2018-01-26 13:56:28
 */
 import React        from 'react';
